@@ -1,19 +1,18 @@
-import { Component, OnDestroy, OnInit ,ViewChild, ElementRef} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { IRoleReportingTo } from '../models/RoleReportingTo';
 import * as Xlsx from 'xlsx';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+  selector: 'app-tax',
+  templateUrl: './tax.component.html',
+  styleUrls: ['./tax.component.scss'],
   animations: fuseAnimations
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class TaxComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  reportingToDDL: IRoleReportingTo[] = [{ id: 1, description: 'Admin' }, { id: 2, description: 'MD' }, { id: 3, description: 'Manager' }, { id: 4, description: 'Ceo' }];
-  genderDDl: any[] = [{ 'id': 1, 'description': 'Male' }, { 'id': 2, 'description': 'Female' }];
+ 
   rowData: any[] = [];
   columnDef: any[] = [];
 
@@ -25,16 +24,12 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Reactive Form
     this.form = this._formBuilder.group({
-
-      name: ['', Validators.required],
-      empId: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
-      gender: ['', Validators.required],
-      birthDate: [''],
-      startDate: [''],
-      toDate: [''],
-      roleId: ['', Validators.required],
+      taxType: ['gst', Validators.required],
+      taxLabel: ['', Validators.required],
+      effectiveDates: ['', Validators.required],
+      taxName: ['', Validators.required],
+      taxValue: ['', Validators.required],
+     
     });
 
     this.columnDef = [{ 'header': 'Name', 'field': 'name', 'type': 'label' },
@@ -131,5 +126,5 @@ export class UserComponent implements OnInit, OnDestroy {
     const wb: Xlsx.WorkBook = Xlsx.utils.book_new();
     Xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
     Xlsx.writeFile(wb, '.xls');
-  } 
+  }
 }

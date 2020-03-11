@@ -7,20 +7,20 @@ export const navigation: FuseNavigation[] = [
     translate: 'NAV.USER',
     type: 'group',
     children: [
-      {
-        id: 'sample',
-        title: 'Sample',
-        translate: 'NAV.SAMPLE.TITLE',
-        type: 'item',
-        icon: 'account_balance',
-        url: '/sample',
-        badge: {
-          title: '25',
-          translate: 'NAV.SAMPLE.BADGE',
-          bg: '#F44336',
-          fg: '#FFFFFF'
-        }
-      },
+      //{
+      //  id: 'sample',
+      //  title: 'Sample',
+      //  translate: 'NAV.SAMPLE.TITLE',
+      //  type: 'item',
+      //  icon: 'account_balance',
+      //  url: '/sample',
+      //  badge: {
+      //    title: '25',
+      //    translate: 'NAV.SAMPLE.BADGE',
+      //    bg: '#F44336',
+      //    fg: '#FFFFFF'
+      //  }
+      //},
       {
         id: 'user',
         title: 'Users',
@@ -38,6 +38,24 @@ export const navigation: FuseNavigation[] = [
         icon: 'how_to_reg',
         url: '/role'
 
+      },
+      {
+        id: 'tax',
+        title: 'Tax',
+        translate: 'NAV.TAX.TITLE',
+        type: 'item',
+        icon: 'receipt',
+        url: '/tax'
+
+      },
+      {
+        id: 'seller',
+        title: 'Sellers',
+        translate: 'NAV.SELLER.TITLE',
+        type: 'item',
+        icon: 'location_city',
+        url: '/seller'
+
       }
     ]
     },
@@ -49,11 +67,11 @@ export const navigation: FuseNavigation[] = [
         children: [
             {
                 id: 'add_customer',
-                title: 'Add Customer',
+                title: 'Customer Details',
                 translate: 'NAV.ADD_CUSTOMER.TITLE',
                 type: 'item',
-                icon: 'account_balance',
-                url: '/login'
+                icon: 'people',
+                url: '/client'
                
             }
         ]

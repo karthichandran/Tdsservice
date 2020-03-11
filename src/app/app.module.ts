@@ -23,6 +23,9 @@ import { SampleModule } from 'app/main/sample/sample.module';
 import { LoginModule } from 'app/login/login.module';
 import { UserRoleModule } from 'app/user-role/user-role.module';
 import { UserModule } from 'app/user/user.module';
+import { TaxModule } from 'app/tax/tax.module';
+import { SellerModule } from 'app/seller/seller.module';
+import {ClientModule } from 'app/client/client.module';
 
 import { CoreModule } from 'app/core/core.module';
 
@@ -74,7 +77,10 @@ const appRoutes: Routes = [
     SampleModule,
     CoreModule,
     UserRoleModule,
-    UserModule
+    UserModule,
+    TaxModule,
+    SellerModule,
+    ClientModule
   ],
   bootstrap: [
     AppComponent

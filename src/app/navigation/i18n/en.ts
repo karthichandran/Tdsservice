@@ -8,14 +8,20 @@ export const locale = {
         'USERROLE': {
           'TITLE': 'User Role'
         },
+        'TAX': {
+          'TITLE': 'Tax'
+        },
+        'SELLER': {
+          'TITLE': 'Seller'
+        },
         'SAMPLE': {
           'TITLE': 'Sample',
           'BADGE': '20'
         },
         'CUSTOMERS': 'Customers',
         'ADD_CUSTOMER': {
-          'TITLE': 'Add Customer',
-          'BADGE': '20'
+          'TITLE': 'Customer Info'
+          
         }
       }              
 
