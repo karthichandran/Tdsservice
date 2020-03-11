@@ -133,7 +133,15 @@
           </mat-tab>
 
           <mat-tab label="User List">
-            <div class="products tab-content p-24" fusePerfectScrollbar>
+            <div class="products tab-content p-24 " fusePerfectScrollbar>
+              <div fxLayout="column" fxLayoutAlign="center end">
+                <button mat-raised-button                      
+                        class="add-product-button  mt-24 mt-md-0 mr-24 pink" (click)="download()">
+
+                  <span >Upload.XLS </span>
+                  <mat-icon class="s-22" style="margin-left:5px">cloud_upload</mat-icon>
+                </button>
+              </div>
 
               <grid [dataSet]="rowData" [gridColDef]="columnDef" (selectedRows)="selectedRows($event)"></grid>
 

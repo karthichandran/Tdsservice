@@ -1,22 +1,23 @@
-import { Component, OnDestroy, OnInit ,ViewChild, ElementRef} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators ,FormGroupDirective} from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { IRoleReportingTo } from '../models/RoleReportingTo';
 import * as Xlsx from 'xlsx';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+  selector: 'app-seller',
+  templateUrl: './seller.component.html',
+  styleUrls: ['./seller.component.scss'],
   animations: fuseAnimations
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class SellerComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  reportingToDDL: IRoleReportingTo[] = [{ id: 1, description: 'Admin' }, { id: 2, description: 'MD' }, { id: 3, description: 'Manager' }, { id: 4, description: 'Ceo' }];
-  genderDDl: any[] = [{ 'id': 1, 'description': 'Male' }, { 'id': 2, 'description': 'Female' }];
+  sellers: any[] = [];
+  states: any[] = [{'id':1,'description':'karnataka'}];
   rowData: any[] = [];
   columnDef: any[] = [];
 
+  isRadioButtonTouched: boolean = true;
 
   constructor(private _formBuilder: FormBuilder) {
 
@@ -25,18 +26,20 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Reactive Form
     this.form = this._formBuilder.group({
-
       name: ['', Validators.required],
-      empId: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
-      gender: ['', Validators.required],
-      birthDate: [''],
-      startDate: [''],
-      toDate: [''],
-      roleId: ['', Validators.required],
+      promises: ['', Validators.required],
+      flat: ['', Validators.required],
+      road: [''],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      pinCode: ['', Validators.required],
+      status: ['resident', Validators.required],     
+      pan: ['', Validators.required],
+      email: [''],
+      phone: [''],
+      share: ['']
     });
-
+    
     this.columnDef = [{ 'header': 'Name', 'field': 'name', 'type': 'label' },
     { 'header': 'Employee ID', 'field': 'empId', 'type': 'label' },
     { 'header': 'Email', 'field': 'email', 'type': 'label' },
@@ -131,5 +134,30 @@ export class UserComponent implements OnInit, OnDestroy {
     const wb: Xlsx.WorkBook = Xlsx.utils.book_new();
     Xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
     Xlsx.writeFile(wb, '.xls');
-  } 
+  }
+
+  showSeller(model:any) {
+    this.form.patchValue(model);
+  }
+  addCoSeller() {
+    if (this.form.valid) {
+      this.sellers = [this.form.value, ...this.sellers];
+    
+      this.form.reset();
+
+    }
+    else {
+      if (this.form.get("status").value)
+        this.isRadioButtonTouched = true;
+      else
+        this.isRadioButtonTouched = false;
+
+      Object.keys(this.form.controls).forEach(field => { 
+        const control = this.form.get(field);          
+        control.markAsTouched({ onlySelf: true });
+      });
+      //this.form.markAsTouched({ onlySelf: true });
+     // this.form.markAllAsTouched();
+    }
+  }
 }
