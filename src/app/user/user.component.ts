@@ -28,7 +28,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
       name: ['', Validators.required],
       empId: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.email],
       phone: ['', Validators.required],
       gender: ['', Validators.required],
       birthDate: [''],

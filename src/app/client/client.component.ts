@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormGroupDirective } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChildren, QueryList, ElementRef ,ViewChild} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective,ValidatorFn,AbstractControl } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { IRoleReportingTo } from '../models/RoleReportingTo';
 import * as Xlsx from 'xlsx';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
+
 
 @Component({
   selector: 'app-client',
@@ -21,12 +22,14 @@ export class ClientComponent implements OnInit, OnDestroy {
   sellers: any[] = [];
   states: any[] = [{ 'id': 1, 'description': 'karnataka' }];
   rowData: any[] = [];
-  columnDef: any[] = [];
+  sellerData: any[] = [];
+  sellerColumnDef: any[] = [];
 
   isRadioButtonTouched: boolean = true;
 
   @ViewChildren(FusePerfectScrollbarDirective)
   fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
+
 
   constructor(private _formBuilder: FormBuilder) {
 
@@ -43,14 +46,15 @@ export class ClientComponent implements OnInit, OnDestroy {
       city: ['', Validators.required],
       state: ['', Validators.required],
       pinCode: ['', Validators.required],
-      pan: ['', Validators.required],
-      email: [''],
+      pan: ['',[ Validators.required, this.panValidator()]],
+      email: ['',Validators.email],
       phone: [''],
       birthDate: ['', Validators.required],
       form16b: [''],
       trace: [''],
       traceLogin: [''],
-      tracePwd: ['']
+      tracePwd: [''],
+      share:['']
     });
     // Vertical Stepper form stepper
     this.propertyForm = this._formBuilder.group({
@@ -74,63 +78,57 @@ export class ClientComponent implements OnInit, OnDestroy {
       address: ['', Validators.required]
     });
 
+    this.sellerColumnDef = [{ 'header': 'Name', 'field': 'name', 'type': 'label' },
+    { 'header': 'Share %', 'field': 'share', 'type': 'textbox' }
 
-    this.columnDef = [{ 'header': 'Name', 'field': 'name', 'type': 'label' },
-    { 'header': 'Employee ID', 'field': 'empId', 'type': 'label' },
-    { 'header': 'Email', 'field': 'email', 'type': 'label' },
-    { 'header': 'Mobile', 'field': 'phone', 'type': 'label' },
-    { 'header': 'Role', 'field': 'role', 'type': 'label' },
-    { 'header': 'Date', 'field': 'dates', 'type': 'label' },
-    { 'header': 'Status', 'field': 'status', 'type': 'label' }
-    ];
+    ];  
+    //this.rowData = [
+    //  {
+    //    'id': '1',
+    //    'name': 'Reyna',
+    //    'empId': 435345345,
+    //    'email': 'test@gmail.com',
+    //    'phone': '23456456456',
+    //    'roleId': 2,
+    //    'role': 'MD',
+    //    'dates': '01/03/2020 to till date',
+    //    'status': 'Active'
+    //  },
+    //  {
+    //    'id': '1',
+    //    'name': 'koli',
+    //    'empId': 435345345,
+    //    'email': 'test@gmail.com',
+    //    'phone': '23456456456',
+    //    'roleId': 2,
+    //    'role': 'MD',
+    //    'dates': '01/03/2020 to till date',
+    //    'status': 'Active'
+    //  },
+    //  {
+    //    'id': '1',
+    //    'name': 'sachin',
+    //    'empId': 435345345,
+    //    'email': 'test@gmail.com',
+    //    'phone': '23456456456',
+    //    'roleId': 2,
+    //    'role': 'MD',
+    //    'dates': '01/03/2020 to till date',
+    //    'status': 'Active'
+    //  },
+    //  {
+    //    'id': '1',
+    //    'name': 'dhoni',
+    //    'empId': 435345345,
+    //    'email': 'test@gmail.com',
+    //    'phone': '23456456456',
+    //    'roleId': 2,
+    //    'role': 'MD',
+    //    'dates': '01/03/2020 to till date',
+    //    'status': 'Active'
+    //  },
 
-    this.rowData = [
-      {
-        'id': '1',
-        'name': 'Reyna',
-        'empId': 435345345,
-        'email': 'test@gmail.com',
-        'phone': '23456456456',
-        'roleId': 2,
-        'role': 'MD',
-        'dates': '01/03/2020 to till date',
-        'status': 'Active'
-      },
-      {
-        'id': '1',
-        'name': 'koli',
-        'empId': 435345345,
-        'email': 'test@gmail.com',
-        'phone': '23456456456',
-        'roleId': 2,
-        'role': 'MD',
-        'dates': '01/03/2020 to till date',
-        'status': 'Active'
-      },
-      {
-        'id': '1',
-        'name': 'sachin',
-        'empId': 435345345,
-        'email': 'test@gmail.com',
-        'phone': '23456456456',
-        'roleId': 2,
-        'role': 'MD',
-        'dates': '01/03/2020 to till date',
-        'status': 'Active'
-      },
-      {
-        'id': '1',
-        'name': 'dhoni',
-        'empId': 435345345,
-        'email': 'test@gmail.com',
-        'phone': '23456456456',
-        'roleId': 2,
-        'role': 'MD',
-        'dates': '01/03/2020 to till date',
-        'status': 'Active'
-      },
-
-    ];
+    //];
   }
 
   clear() {
@@ -175,9 +173,13 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.customerform.patchValue(model);
   }
   addCoClient() {
+   
+   
     if (this.customerform.valid) {
+     
       this.clients = [this.customerform.value, ...this.clients];
 
+     // this.gridComp.toggleExpandRow(this.clients);
       this.customerform.reset();
 
     }
@@ -195,4 +197,12 @@ export class ClientComponent implements OnInit, OnDestroy {
   finishVerticalStepper(): void {
     alert('You have finished the vertical stepper!');
   }
+
+   panValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    // if input field is empty return as valid else test
+    const ret = (control.value !== '') ? new RegExp('^[A-Za-z]{5}[0-9]{4}[A-Za-z]$').test(control.value) : true;
+    return !ret ? { 'invalidNumber': { value: control.value } } : null;
+  };
+}
 }

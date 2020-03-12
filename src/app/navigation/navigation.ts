@@ -2,9 +2,9 @@ import { FuseNavigation } from '@fuse/types';
 
 export const navigation: FuseNavigation[] = [
     {
-    id: 'user',
-    title: 'User',
-    translate: 'NAV.USER',
+    id: 'application',
+    title: 'Application',
+    translate: 'NAV.APPLICATION',
     type: 'group',
     children: [
       //{
@@ -39,15 +39,15 @@ export const navigation: FuseNavigation[] = [
         url: '/role'
 
       },
-      {
-        id: 'tax',
-        title: 'Tax',
-        translate: 'NAV.TAX.TITLE',
-        type: 'item',
-        icon: 'receipt',
-        url: '/tax'
+      // {
+        // id: 'tax',
+        // title: 'Tax',
+        // translate: 'NAV.TAX.TITLE',
+        // type: 'item',
+        // icon: 'receipt',
+        // url: '/tax'
 
-      },
+      // },
       {
         id: 'seller',
         title: 'Sellers',
@@ -55,6 +55,15 @@ export const navigation: FuseNavigation[] = [
         type: 'item',
         icon: 'location_city',
         url: '/seller'
+
+      },
+      {
+        id: 'property',
+        title: 'Property',
+        translate: 'NAV.PROPERTY.TITLE',
+        type: 'item',
+        icon: 'business',
+        url: '/property'
 
       }
     ]
