@@ -25,7 +25,8 @@ import { UserRoleModule } from 'app/user-role/user-role.module';
 import { UserModule } from 'app/user/user.module';
 import { TaxModule } from 'app/tax/tax.module';
 import { SellerModule } from 'app/seller/seller.module';
-import {ClientModule } from 'app/client/client.module';
+import { ClientModule } from 'app/client/client.module';
+import { PropertyModule} from 'app/property/property.module';
 
 import { CoreModule } from 'app/core/core.module';
 
@@ -38,7 +39,7 @@ const appRoutes: Routes = [
   {
 
     path: '**',
-    redirectTo: 'sample'
+    redirectTo: 'client'
   }
 ];
 
@@ -80,7 +81,8 @@ const appRoutes: Routes = [
     UserModule,
     TaxModule,
     SellerModule,
-    ClientModule
+    ClientModule,
+    PropertyModule
   ],
   bootstrap: [
     AppComponent

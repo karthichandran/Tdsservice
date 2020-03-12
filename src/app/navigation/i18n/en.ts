@@ -2,6 +2,9 @@ export const locale = {
     lang: 'en',
     data: {
       'NAV': {
+        'APPLICATION': 'Application',
+        'PROPERTY': {
+        'TITLE':'Property'},
         'USER': {
           'TITLE': 'Users'
         },

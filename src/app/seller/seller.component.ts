@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators ,FormGroupDirective} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormGroupDirective, ValidatorFn, AbstractControl} from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
 import { IRoleReportingTo } from '../models/RoleReportingTo';
 import * as Xlsx from 'xlsx';
@@ -34,7 +34,7 @@ export class SellerComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       pinCode: ['', Validators.required],
       status: ['resident', Validators.required],     
-      pan: ['', Validators.required],
+      pan: ['', [Validators.required,this.panValidator()]],
       email: [''],
       phone: [''],
       share: ['']
@@ -159,5 +159,13 @@ export class SellerComponent implements OnInit, OnDestroy {
       //this.form.markAsTouched({ onlySelf: true });
      // this.form.markAllAsTouched();
     }
+  }
+
+  panValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      // if input field is empty return as valid else test
+      const ret = (control.value !== '') ? new RegExp('^[A-Za-z]{5}[0-9]{4}[A-Za-z]$').test(control.value) : true;
+      return !ret ? { 'invalidNumber': { value: control.value } } : null;
+    };
   }
 }
